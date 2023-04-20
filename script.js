@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 
 async function scrap (){
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({headless: false});
     const page = await browser.newPage();
     await page.goto('https://www.curriculumnacional.cl/portal/Documentos-Curriculares/Programas/');
     await page.waitForSelector('h2.ntg-titulo-caja');
@@ -18,6 +18,8 @@ async function scrap (){
 
         return linksCursos;
     });
+
+    console.log(linksInicio);
 }
 
 scrap();
