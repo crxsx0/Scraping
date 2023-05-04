@@ -1,7 +1,20 @@
 const puppeteer = require('puppeteer');
 const ExcelJS = require('exceljs');
 
-async function irCursos(cursos, page, excel) {
+async function irCursos(cursos, page) {
+    const workbook = new ExcelJS.Workbook()
+    const fileName = 'primero_basico_a_segundo_medio.xlsx'
+    const sheet = workbook.addWorksheet('Tabla1')
+
+    const reColumns = [
+        {header: 'Nivel', key: 'nivel'},
+        {header: 'Asignatura', key: 'asignatura'},
+        {header: 'Unidad', key: 'unidad'},
+        {header: 'Link', key: 'link'}
+    ]
+
+    sheet.columns = reColumns
+
     for (let i of cursos) {
         await page.goto(i);
         await page.waitForSelector("#indice_oas > ul > li:nth-child(2)");
@@ -85,15 +98,15 @@ async function irCursos(cursos, page, excel) {
                         unidad: nuevaUnidad,
                         link: i
                     };
-                    excel.push(elemento);
+                    sheet.addRow(elemento);
+                    workbook.xlsx.writeFile(fileName);
                 }
             }
         }
-
     }
 }
 
-const saveExcel = (data) => {
+/*const saveExcel = (data) => {
     const workbook = new ExcelJS.Workbook()
     const fileName = 'primero_basico_a_segundo_medio.xlsx'
     const sheet = workbook.addWorksheet('Tabla1')
@@ -108,11 +121,9 @@ const saveExcel = (data) => {
     sheet.columns = reColumns
     sheet.addRows(data)
 
-    workbook.xlsx.writeFile(fileName).then((e) => {
-        console.log('Guardado exitosamente');
-    })
+    workbook.xlsx.writeFile(fileName);
 
-}
+}*/
 
 async function scrap (){
     const browser = await puppeteer.launch({headless:false});
@@ -140,7 +151,7 @@ async function scrap (){
     await irCursos(linksInicio, page, listaExcel);
     await browser.close();
 
-    saveExcel(listaExcel);
+    //saveExcel(listaExcel);
 }
 
 scrap();
