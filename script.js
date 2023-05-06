@@ -30,7 +30,7 @@ async function extraerRecursos(i, page, fileName, sheet, workbook, nombreCurso, 
         }
 
     } catch (error) {
-        console.log("error");
+        console.log("Hubo un error en la funcion extraerRecursos");
         await extraerRecursos(i, page, fileName, sheet, workbook, nombreCurso, nombreAsignatura, nuevaUnidad);
     }
 }
@@ -72,8 +72,8 @@ async function irUnidad(urlUnidad, page, fileName, sheet, workbook, nombreCurso)
             await extraerRecursos(i, page, fileName, sheet, workbook, nombreCurso, nombreAsignatura, nuevaUnidad);
         };
     } catch (error) {
-        console.log("error");
-        irUnidad(urlUnidad, page, fileName, sheet, workbook, nombreCurso)
+        console.log("Hubo un error en la funcion irUnidad");
+        await irUnidad(urlUnidad, page, fileName, sheet, workbook, nombreCurso)
     }
 }
 
@@ -110,8 +110,8 @@ async function irCurso(urlCurso, page, workbook, fileName, sheet){
             await irUnidad(i, page, fileName, sheet, workbook,nombreCurso);
         }
     } catch (error) {
-        console.log("error");
-        irCurso(urlCurso, page, workbook, fileName, sheet);
+        console.log("Hubo un error en la funcion irCurso");
+        await irCurso(urlCurso, page, workbook, fileName, sheet);
     }
 }
 
